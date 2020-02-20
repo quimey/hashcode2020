@@ -49,17 +49,17 @@ solve = maximizar_librerias_registradas
 
 
 def local_search(bs, libraries, d, solution):
-    ITERATIONS = 1000
+    ITERATIONS = 2000
     ms = score(d, bs, libraries, solution)
     n = len(solution)
-    for _ in range(ITERATIONS):
+    for it in range(ITERATIONS):
         i = random.randrange(n)
         j = random.randrange(n)
         solution[i], solution[j] = solution[j], solution[i]
         s = score(d, bs, libraries, solution)
         if s > ms:
             ms = s
-            print('Local search:', ms, file=sys.stderr)
+            print('Local search:', ms, it, file=sys.stderr)
         else:
             solution[i], solution[j] = solution[j], solution[i]
 
@@ -82,7 +82,7 @@ def read_data():
 if __name__ == '__main__':
     bs, libraries, d = read_data()
     solution = solve(bs, libraries, d)
-    # local_search(bs, libraries, d, solution)
+    local_search(bs, libraries, d, solution)
     s = score(d, bs, libraries, solution)
     print(s, file=sys.stderr)
     with open('scores.txt', 'a') as f:
