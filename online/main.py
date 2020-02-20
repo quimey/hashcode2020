@@ -82,6 +82,9 @@ def read_data():
 if __name__ == '__main__':
     bs, libraries, d = read_data()
     solution = solve(bs, libraries, d)
-    local_search(bs, libraries, d, solution)
-    print(score(d, bs, libraries, solution), file=sys.stderr)
+    # local_search(bs, libraries, d, solution)
+    s = score(d, bs, libraries, solution)
+    print(s, file=sys.stderr)
+    with open('scores.txt', 'a') as f:
+        f.write(str(s) + '\n')
     print_data(solution)
