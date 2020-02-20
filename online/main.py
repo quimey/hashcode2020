@@ -36,15 +36,19 @@ def score(D, bs, libraries, solution):
     return result
 
 
-def solve(bs, libraries, d):
+def dummy_solve(bs, libraries, d):
     signup = 0
     solution = []
     for i, lib in enumerate(libraries):
         signup += lib[0]
-        lim = lib[1] * (d - signup)
-        solution.append((i, list(lib[2])[:lim]))
+        lim = lib[1] * max(0, d - signup)
+        if lim:
+            solution.append((i, list(lib[2])[:lim]))
     print(score(d, bs, libraries, solution), file=sys.stderr)
     return solution
+
+
+solve = dummy_solve
 
 
 def read_data():
