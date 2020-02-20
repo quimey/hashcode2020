@@ -9,6 +9,7 @@ class Invalid(Exception):
 def print_data(solution):
     # solution tiene que ser una lista de pares, cada elemento es un par con
     # el id de la library y una lista de libros a ser escaneados
+    print(len(solution))
     for idx, books in solution:
         print(idx, len(books))
         print(' '.join(map(str, books)))
