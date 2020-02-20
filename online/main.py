@@ -9,6 +9,7 @@ def print_data(libraries):
 
 def read_data():
     # devuelve una tupla con scores de los libros, descripcion de las libraries
+    # y el limite de dias
     # cada library es una terna con dias para signup, scans por dia y lista de
     # libros
     B, L, D = map(int, input().split())
@@ -18,4 +19,4 @@ def read_data():
         N, T, M = map(int, input().split())
         ids = list(map(int, input().split()))
         libraries.append((T, M, ids))
-    return bs, libraries
+    return bs, libraries, D
