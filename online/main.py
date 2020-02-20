@@ -1,3 +1,4 @@
+import random
 import sys
 
 
@@ -47,6 +48,22 @@ def dummy_solve(bs, libraries, d):
 solve = dummy_solve
 
 
+def local_search(bs, libraries, d, solution):
+    ITERATIONS = 1000
+    ms = score(d, bs, libraries, solution)
+    n = len(solution)
+    for _ in range(ITERATIONS):
+        i = random.randrange(n)
+        j = random.randrange(n)
+        solution[i], solution[j] = solution[j], solution[i]
+        s = score(d, bs, libraries, solution)
+        if s > ms:
+            ms = s
+            print('Local search:', ms, file=sys.stderr)
+        else:
+            solution[i], solution[j] = solution[j], solution[i]
+
+
 def read_data():
     # devuelve una tupla con scores de los libros, descripcion de las libraries
     # y el limite de dias
@@ -65,5 +82,6 @@ def read_data():
 if __name__ == '__main__':
     bs, libraries, d = read_data()
     solution = solve(bs, libraries, d)
+    local_search(bs, libraries, d, solution)
     print_data(solution)
 
