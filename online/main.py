@@ -42,7 +42,6 @@ def dummy_solve(bs, libraries, d):
     solution = []
     for i, lib in enumerate(libraries):
         solution.append((i, lib[2]))
-    print(score(d, bs, libraries, solution), file=sys.stderr)
     return solution
 
 
@@ -84,5 +83,5 @@ if __name__ == '__main__':
     bs, libraries, d = read_data()
     solution = solve(bs, libraries, d)
     local_search(bs, libraries, d, solution)
+    print(score(d, bs, libraries, solution), file=sys.stderr)
     print_data(solution)
-
