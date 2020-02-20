@@ -1,7 +1,3 @@
-from main import read_data, score
-
-bs, libraries, D = read_data()
-
 def maximizar_librerias_registradas(b,l,d):
 	solution = []
 	l = [list(l[i]) + [i] for i in range(len(l))]

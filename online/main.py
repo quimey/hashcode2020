@@ -1,6 +1,6 @@
 import random
 import sys
-
+from maximizar_librerias_registradas import maximizar_librerias_registradas
 
 class Invalid(Exception):
     pass
@@ -45,7 +45,7 @@ def dummy_solve(bs, libraries, d):
     return solution
 
 
-solve = dummy_solve
+solve = maximizar_librerias_registradas
 
 
 def local_search(bs, libraries, d, solution):
