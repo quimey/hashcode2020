@@ -21,7 +21,7 @@ def score(D, bs, libraries, solution):
         t, m, have = libraries[idx]
         # it takes t days to signup
         signup += t
-        total = D - signup
+        total = max(0, D - signup)
         cnt = 0
         # process non scanned books in order
         for book in books:
@@ -37,13 +37,9 @@ def score(D, bs, libraries, solution):
 
 
 def dummy_solve(bs, libraries, d):
-    signup = 0
     solution = []
     for i, lib in enumerate(libraries):
-        signup += lib[0]
-        lim = lib[1] * max(0, d - signup)
-        if lim:
-            solution.append((i, list(lib[2])[:lim]))
+        solution.append((i, lib[2]))
     print(score(d, bs, libraries, solution), file=sys.stderr)
     return solution
 
