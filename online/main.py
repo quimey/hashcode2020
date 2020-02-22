@@ -1,6 +1,9 @@
 import random
 import sys
 from maximizar_librerias_registradas import maximizar_librerias_registradas
+from cabeza import solve_cabeza
+from matching import matching
+
 
 class Invalid(Exception):
     pass
@@ -15,6 +18,29 @@ def print_data(solution):
         print(' '.join(map(str, books)))
 
 
+def filter(D, bs, libraries, solution):
+    result = []
+    signup = 0
+    scanned = set()
+    for idx, books in solution:
+        current = []
+        t, m, _= libraries[idx]
+        # it takes t days to signup
+        signup += t
+        cnt = 0
+        # process non scanned books in order
+        for book in books:
+            if cnt == m * max(0, D - signup):
+                break
+            if book not in scanned:
+                scanned.add(book)
+                current.append(book)
+                cnt += 1
+        if current:
+            result.append((idx, current))
+    return result
+
+
 def score(D, bs, libraries, solution):
     result = 0
     signup = 0
@@ -23,13 +49,12 @@ def score(D, bs, libraries, solution):
         t, m, have = libraries[idx]
         # it takes t days to signup
         signup += t
-        total = max(0, D - signup)
         cnt = 0
         # process non scanned books in order
         for book in books:
             if book not in have:
                 raise Invalid
-            if cnt == m * total:
+            if cnt == m * max(0, D - signup):
                 break
             if book not in scanned:
                 scanned.add(book)
@@ -49,7 +74,7 @@ solve = maximizar_librerias_registradas
 
 
 def local_search(bs, libraries, d, solution):
-    ITERATIONS = 2000
+    ITERATIONS = 50000
     ms = score(d, bs, libraries, solution)
     n = len(solution)
     for it in range(ITERATIONS):
@@ -87,4 +112,8 @@ if __name__ == '__main__':
     print(s, file=sys.stderr)
     with open('scores.txt', 'a') as f:
         f.write(str(s) + '\n')
+    # solution = matching(d, bs, libraries, solution)
+    solution = filter(d, bs, libraries, solution)
+    s = score(d, bs, libraries, solution)
+    print(s, file=sys.stderr)
     print_data(solution)
