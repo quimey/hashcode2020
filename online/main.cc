@@ -20,6 +20,7 @@ int score(
         int idx = solution[i].first;
         vector<int> &books = solution[i].second;
         signup += ts[idx];
+        if (signup >= d) break;
         int cnt = 0;
         const int lim = ms[idx] * max(0, d - signup);
         forn(j, books.size()) {
@@ -56,7 +57,7 @@ vector<pair<int, vector<int>>> simann(
     int n = solution.size();
     int mmejs = mejs;
     double temp=1e6, alpha=.99;
-    int step = 2000;
+    int step = 1000;
     vector<pair<int, vector<int>>> res;
     forn(q, 1500) {
         forn(t, step) {
@@ -129,17 +130,35 @@ void local_search(
     }
 }
 
+
+vector<int> sort_books(vector<int> &bs, vector<int> &cb, vector<int> &books) {
+    vector<pair<int, int>> aux;
+    forn(i, books.size()) {
+        aux.push_back(make_pair(bs[books[i]] +  0  * cb[books[i]], books[i]));
+    }
+    sort(aux.begin(), aux.end());
+    reverse(aux.begin(), aux.end());
+    vector<int> result;
+    forn(i, aux.size()) result.push_back(aux[i].second);
+    return result;
+}
+
+
 int main() {
     int b, l, d;
     cin >> b >> l >> d;
-    vector<int> bs(b), ts(l), ms(l);
+    vector<int> bs(b), ts(l), ms(l), cb(b);
     vector<vector<int>> bss(l);
     forn(i, b) cin >> bs[i];
     forn(i, l) {
         int n;
         cin >> n >> ts[i] >> ms[i];
         bss[i].resize(n);
-        forn(j, n) cin >> bss[i][j];
+        forn(j, n) {
+            cin >> bss[i][j];
+            cb[bss[i][j]] ++;
+        }
+        bss[i] = sort_books(bs, cb, bss[i]);
     }
     vector<pair<int, vector<int>>> solution = dummy_solve(d, bs, ts, ms, bss);
     solution = simann(d, bs, ts, ms, bss, solution);
